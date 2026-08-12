@@ -73,7 +73,7 @@ class DecLayer(eqx.Module):
         return DecLayer(
             norm1=from_torch(m.norm1), norm2=from_torch(m.norm2),
             W1=from_torch(m.W1), W2=from_torch(m.W2), W3=from_torch(m.W3),
-            dense=from_torch(m.dense), scale=m.scale)
+            dense=PositionWiseFeedForward.from_torch(m.dense), scale=m.scale)
 
 
 # DecLayerJ is DecLayer applied over one extra (ligand-atom) dimension; the broadcast in
@@ -84,7 +84,7 @@ class DecLayerJ(DecLayer):
         return DecLayerJ(
             norm1=from_torch(m.norm1), norm2=from_torch(m.norm2),
             W1=from_torch(m.W1), W2=from_torch(m.W2), W3=from_torch(m.W3),
-            dense=from_torch(m.dense), scale=m.scale)
+            dense=PositionWiseFeedForward.from_torch(m.dense), scale=m.scale)
 
 
 class EncLayer(eqx.Module):
@@ -122,7 +122,7 @@ class EncLayer(eqx.Module):
             norm1=from_torch(m.norm1), norm2=from_torch(m.norm2), norm3=from_torch(m.norm3),
             W1=from_torch(m.W1), W2=from_torch(m.W2), W3=from_torch(m.W3),
             W11=from_torch(m.W11), W12=from_torch(m.W12), W13=from_torch(m.W13),
-            dense=from_torch(m.dense), scale=m.scale)
+            dense=PositionWiseFeedForward.from_torch(m.dense), scale=m.scale)
 
 
 class PositionalEncodings(eqx.Module):
