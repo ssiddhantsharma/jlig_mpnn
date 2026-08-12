@@ -53,11 +53,9 @@ class LigandMPNN(eqx.Module):
         h_V = h_V + self.V_C_norm(self.V_C(h_V_C))
         return h_V, h_E, E_idx
 
-    def score(self, S, X, mask, Y, Y_m, Y_t, R_idx, chain_labels, chain_mask, randn):
-        """Teacher-forced log-probs of sequence S. Returns [B,L,21] log_probs."""
-        B, L = S.shape
-        h_V, h_E, E_idx = self.encode(X, mask, Y, Y_m, Y_t, R_idx, chain_labels)
-
+    def _decode(self, h_S, h_V, h_E, E_idx, mask, chain_mask, randn):
+        """Teacher-forced decode given per-residue sequence embeddings h_S. -> [B,L,21]."""
+        B, L = mask.shape
         chain_mask = mask * chain_mask
         decoding_order = jnp.argsort((chain_mask + 0.0001) * jnp.abs(randn))
         perm = jax.nn.one_hot(decoding_order, L)
@@ -68,7 +66,6 @@ class LigandMPNN(eqx.Module):
         mask_bw = mask_1D * mask_attend
         mask_fw = mask_1D * (1.0 - mask_attend)
 
-        h_S = self.W_s(S)
         h_ES = cat_neighbors_nodes(h_S, h_E, E_idx)
         h_EX_encoder = cat_neighbors_nodes(jnp.zeros_like(h_S), h_E, E_idx)
         h_EXV_encoder_fw = mask_fw * cat_neighbors_nodes(h_V, h_EX_encoder, E_idx)
@@ -79,6 +76,18 @@ class LigandMPNN(eqx.Module):
             h_V = layer(h_V, h_ESV, mask)
 
         return jax.nn.log_softmax(self.W_out(h_V), axis=-1)
+
+    def score(self, S, X, mask, Y, Y_m, Y_t, R_idx, chain_labels, chain_mask, randn):
+        """Teacher-forced log-probs of integer sequence S. Returns [B,L,21] log_probs."""
+        h_V, h_E, E_idx = self.encode(X, mask, Y, Y_m, Y_t, R_idx, chain_labels)
+        return self._decode(self.W_s(S), h_V, h_E, E_idx, mask, chain_mask, randn)
+
+    def score_soft(self, soft20, X, mask, Y, Y_m, Y_t, R_idx, chain_labels, chain_mask, randn):
+        """Differentiable log-probs of a soft sequence soft20 [B,L,20] in native MPNN order
+        (the first 20 alphabet entries are the standard amino acids). Returns [B,L,21]."""
+        h_V, h_E, E_idx = self.encode(X, mask, Y, Y_m, Y_t, R_idx, chain_labels)
+        h_S = soft20 @ self.W_s.weight[:20]
+        return self._decode(h_S, h_V, h_E, E_idx, mask, chain_mask, randn)
 
     @staticmethod
     def from_torch(m):
