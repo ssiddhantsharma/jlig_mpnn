@@ -2,14 +2,14 @@
 
 import sys
 
+import jax.numpy as jnp
 import numpy as np
 import torch
-import jax.numpy as jnp
 
 sys.path.insert(0, "/tmp")
-import ligmpnn_model as ref  # noqa: E402
+import ligmpnn_model as ref
 
-from jlig_mpnn.model import LigandMPNN  # noqa: E402
+from jlig_mpnn.model import LigandMPNN
 
 B, L, M = 1, 18, 20
 

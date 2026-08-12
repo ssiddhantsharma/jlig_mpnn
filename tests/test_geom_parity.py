@@ -1,10 +1,10 @@
 """Parity of the geometry helpers (kNN, RBF) vs the torch LigandMPNN reference."""
 
+import jax.numpy as jnp
 import numpy as np
 import torch
-import jax.numpy as jnp
 
-from jlig_mpnn.features import knn, rbf, get_rbf
+from jlig_mpnn.features import get_rbf, knn, rbf
 
 TOP_K, NUM_RBF = 30, 16
 

@@ -8,9 +8,9 @@ Skips unless the public checkpoint is present. Fetch it with:
 import os
 import sys
 
+import jax.numpy as jnp
 import numpy as np
 import torch
-import jax.numpy as jnp
 
 CKPT = "/tmp/ligandmpnn_v_32_010_25.pt"
 

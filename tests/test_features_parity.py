@@ -6,14 +6,14 @@ every output tensor agrees on synthetic input.
 
 import sys
 
+import jax.numpy as jnp
 import numpy as np
 import torch
-import jax.numpy as jnp
 
 sys.path.insert(0, "/tmp")
-import ligmpnn_model as ref  # noqa: E402
+import ligmpnn_model as ref
 
-from jlig_mpnn.features import ProteinFeaturesLigand  # noqa: E402
+from jlig_mpnn.features import ProteinFeaturesLigand
 
 B, L, M, AC, NRBF = 1, 20, 25, 16, 16
 
