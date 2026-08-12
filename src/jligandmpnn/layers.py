@@ -8,7 +8,7 @@ import equinox as eqx
 import jax
 import jax.numpy as jnp
 
-from .backend import Linear, LayerNorm, from_torch
+from .backend import LayerNorm, Linear, from_torch
 
 
 def _gelu(x):

@@ -5,10 +5,8 @@ from functools import singledispatch
 
 import equinox as eqx
 import jax
-import numpy as np
 import torch
 from jax import numpy as jnp
-from jaxtyping import Array, Float
 
 
 @singledispatch
@@ -59,8 +57,8 @@ class AbstractFromTorch(eqx.Module):
 
 @register_from_torch(torch.nn.Linear)
 class Linear(eqx.Module):
-    weight: Float[Array, "O I"]
-    bias: Float[Array, "O"] | None
+    weight: jax.Array
+    bias: jax.Array | None
 
     def __call__(self, x):
         o = x @ self.weight.T
@@ -73,8 +71,8 @@ class Linear(eqx.Module):
 
 @register_from_torch(torch.nn.LayerNorm)
 class LayerNorm(eqx.Module):
-    weight: Float[Array, "O"] | None
-    bias: Float[Array, "O"] | None
+    weight: jax.Array | None
+    bias: jax.Array | None
     eps: float
 
     def __call__(self, x):
@@ -94,7 +92,7 @@ class LayerNorm(eqx.Module):
 
 @register_from_torch(torch.nn.Embedding)
 class Embedding(eqx.Module):
-    weight: Float[Array, "V D"]
+    weight: jax.Array
 
     def __call__(self, idx):
         return self.weight[idx]
