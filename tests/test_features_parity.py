@@ -13,7 +13,7 @@ import jax.numpy as jnp
 sys.path.insert(0, "/tmp")
 import ligmpnn_model as ref  # noqa: E402
 
-from jligandmpnn.features import ProteinFeaturesLigand  # noqa: E402
+from jlig_mpnn.features import ProteinFeaturesLigand  # noqa: E402
 
 B, L, M, AC, NRBF = 1, 20, 25, 16, 16
 

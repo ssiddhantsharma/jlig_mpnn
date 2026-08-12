@@ -11,4 +11,4 @@ jobs:
           python-version: "3.12"
       - run: pip install ruff
       - run: ruff check src
-      - run: python -m py_compile src/jligandmpnn/*.py
+      - run: python -m py_compile src/jlig_mpnn/*.py
