@@ -1,0 +1,17 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "jligandmpnn"
+version = "0.0.1"
+description = "JAX/Equinox port of LigandMPNN (differentiable, ligand-aware sequence log-likelihood)"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = ["jax", "equinox", "numpy"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/jligandmpnn"]
+
+[tool.ruff]
+line-length = 100
