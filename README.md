@@ -23,7 +23,10 @@ Verified against the torch reference on CPU, block by block:
 - full `score` log-probs vs the real `ligandmpnn_v_32_010_25` checkpoint: < 3e-5, argmax identical
 - `score_soft(one_hot(S)) == score(S)` exactly; gradient wrt the sequence is finite and nonzero
 
-`python tests/test_*_parity.py` (needs torch + the LigandMPNN reference module + checkpoint).
+![parity](figures/parity.png)
+
+`python tests/test_*_parity.py` (needs torch + the LigandMPNN reference module + checkpoint);
+`python scripts/parity_figure.py` regenerates the plot.
 
 ## Layout
 - `src/jlig_mpnn/` `model`, `features`, `layers`, `backend` (the `from_torch` machinery)
