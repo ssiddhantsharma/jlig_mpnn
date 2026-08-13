@@ -1,8 +1,9 @@
 # jlig_mpnn
 
 JAX/Equinox port of LigandMPNN (Dauparas et al.), loaded from the released torch checkpoints
-via `from_torch`. Gives a **differentiable, ligand-aware** sequence log-likelihood — usable as
-an in-loop loss for gradient-based protein design, which the torch model is not.
+via `from_torch`. Gives a **differentiable, ligand-aware** sequence log-likelihood, usable as
+an in-loop loss for gradient-based protein design (the torch model is not differentiable
+through the sequence).
 
 Port of https://github.com/dauparas/LigandMPNN not affiliated.
 
@@ -25,7 +26,7 @@ Verified against the torch reference on CPU, block by block:
 `python tests/test_*_parity.py` (needs torch + the LigandMPNN reference module + checkpoint).
 
 ## Layout
-- `src/jlig_mpnn/` — `model`, `features`, `layers`, `backend` (the `from_torch` machinery)
-- `tests/` — parity vs the torch reference
+- `src/jlig_mpnn/` `model`, `features`, `layers`, `backend` (the `from_torch` machinery)
+- `tests/` parity vs the torch reference
 
 Deps: jax + equinox.
