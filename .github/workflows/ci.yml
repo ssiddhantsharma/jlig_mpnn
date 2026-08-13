@@ -10,5 +10,17 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install ruff
-      - run: ruff check src
+      - run: ruff check src tests scripts examples
       - run: python -m py_compile src/jligandmpnn/*.py
+
+  parity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - run: pip install jax equinox numpy pytest
+      - run: curl -sL -o /tmp/ligandmpnn_v_32_010_25.pt https://files.ipd.uw.edu/pub/ligandmpnn/ligandmpnn_v_32_010_25.pt
+      - run: PYTHONPATH=src pytest tests -q

@@ -1,0 +1,12 @@
+jligandmpnn is a JAX/Equinox port of LigandMPNN.
+
+LigandMPNN
+  https://github.com/dauparas/LigandMPNN
+  Justas Dauparas et al., "Atomic context-conditioned protein sequence design
+  using LigandMPNN", Nature Methods (2025).
+  Licensed under the MIT License.
+
+The model architecture and the released checkpoints (ligandmpnn_v_32_*) are the
+work of the LigandMPNN authors. This repository reimplements the ligand_mpnn
+inference path in JAX and loads their published weights via `from_torch`; it adds
+a differentiable soft-sequence path (`score_soft`). Not affiliated with the authors.

@@ -1,32 +1,29 @@
 """score_soft (differentiable) must agree with score (integer) on one-hot input, and its
 gradient wrt the soft sequence must flow. Uses random init -- no checkpoint needed."""
 
-import sys
 
-import numpy as np
-import torch
 import jax
 import jax.numpy as jnp
+import ligmpnn_model as ref
+import numpy as np
+import torch
 
-sys.path.insert(0, "/tmp")
-import ligmpnn_model as ref  # noqa: E402
-
-from jligandmpnn.model import LigandMPNN  # noqa: E402
+from jligandmpnn.model import LigandMPNN
 
 B, L, M = 1, 18, 20
 
 
 def _inputs():
     rng = np.random.RandomState(3)
-    return dict(
-        X=(rng.randn(B, L, 4, 3) * 5).astype(np.float32), mask=np.ones((B, L), np.float32),
-        Y=(rng.randn(B, L, M, 3) * 5).astype(np.float32),
-        Y_t=rng.randint(1, 30, (B, L, M)).astype(np.float32),
-        Y_m=(rng.rand(B, L, M) > 0.2).astype(np.float32),
-        R_idx=np.tile(np.arange(L), (B, 1)).astype(np.float32),
-        chain_labels=np.zeros((B, L), np.float32),
-        S=rng.randint(0, 20, (B, L)),  # standard AAs only (0..19)
-        chain_mask=np.ones((B, L), np.float32), randn=rng.randn(B, L).astype(np.float32))
+    return {
+        "X": (rng.randn(B, L, 4, 3) * 5).astype(np.float32), "mask": np.ones((B, L), np.float32),
+        "Y": (rng.randn(B, L, M, 3) * 5).astype(np.float32),
+        "Y_t": rng.randint(1, 30, (B, L, M)).astype(np.float32),
+        "Y_m": (rng.rand(B, L, M) > 0.2).astype(np.float32),
+        "R_idx": np.tile(np.arange(L), (B, 1)).astype(np.float32),
+        "chain_labels": np.zeros((B, L), np.float32),
+        "S": rng.randint(0, 20, (B, L)),  # standard AAs only (0..19)
+        "chain_mask": np.ones((B, L), np.float32), "randn": rng.randn(B, L).astype(np.float32)}
 
 
 def test_soft_matches_hard():

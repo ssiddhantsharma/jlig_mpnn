@@ -6,7 +6,6 @@ Skips unless the public checkpoint is present. Fetch it with:
 """
 
 import os
-import sys
 
 import jax.numpy as jnp
 import numpy as np
@@ -19,7 +18,6 @@ def test_checkpoint_parity():
     if not os.path.exists(CKPT):
         print("SKIP: checkpoint not present at", CKPT)
         return
-    sys.path.insert(0, "/tmp")
     import ligmpnn_model as ref
 
     from jligandmpnn.model import LigandMPNN
@@ -32,14 +30,14 @@ def test_checkpoint_parity():
 
     B, L, M = 1, 40, 25
     rng = np.random.RandomState(2)
-    arrs = dict(
-        X=(rng.randn(B, L, 4, 3) * 5).astype(np.float32), mask=np.ones((B, L), np.float32),
-        Y=(rng.randn(B, L, M, 3) * 5).astype(np.float32),
-        Y_t=rng.randint(1, 30, (B, L, M)).astype(np.float32),
-        Y_m=(rng.rand(B, L, M) > 0.2).astype(np.float32),
-        R_idx=np.tile(np.arange(L), (B, 1)).astype(np.float32),
-        chain_labels=np.zeros((B, L), np.float32), S=rng.randint(0, 21, (B, L)),
-        chain_mask=np.ones((B, L), np.float32), randn=rng.randn(B, L).astype(np.float32))
+    arrs = {
+        "X": (rng.randn(B, L, 4, 3) * 5).astype(np.float32), "mask": np.ones((B, L), np.float32),
+        "Y": (rng.randn(B, L, M, 3) * 5).astype(np.float32),
+        "Y_t": rng.randint(1, 30, (B, L, M)).astype(np.float32),
+        "Y_m": (rng.rand(B, L, M) > 0.2).astype(np.float32),
+        "R_idx": np.tile(np.arange(L), (B, 1)).astype(np.float32),
+        "chain_labels": np.zeros((B, L), np.float32), "S": rng.randint(0, 21, (B, L)),
+        "chain_mask": np.ones((B, L), np.float32), "randn": rng.randn(B, L).astype(np.float32)}
 
     fd = {"batch_size": 1, "symmetry_residues": [[]]}
     fd.update({k: torch.tensor(v) for k, v in arrs.items()})

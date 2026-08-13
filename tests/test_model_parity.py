@@ -1,13 +1,10 @@
 """Parity of the full LigandMPNN score() (log-probs) vs the torch reference."""
 
-import sys
 
 import jax.numpy as jnp
+import ligmpnn_model as ref
 import numpy as np
 import torch
-
-sys.path.insert(0, "/tmp")
-import ligmpnn_model as ref
 
 from jligandmpnn.model import LigandMPNN
 

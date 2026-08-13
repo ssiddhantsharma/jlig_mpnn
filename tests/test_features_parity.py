@@ -4,14 +4,11 @@ Instantiates the real torch class (random init), ports it with from_torch, and c
 every output tensor agrees on synthetic input.
 """
 
-import sys
 
 import jax.numpy as jnp
+import ligmpnn_model as ref
 import numpy as np
 import torch
-
-sys.path.insert(0, "/tmp")
-import ligmpnn_model as ref
 
 from jligandmpnn.features import ProteinFeaturesLigand
 
@@ -34,8 +31,8 @@ def test_features_parity():
     R_idx = np.tile(np.arange(L), (B, 1)).astype(np.float32)
     chain_labels = np.zeros((B, L), np.float32)
 
-    fd = {k: torch.tensor(v) for k, v in dict(
-        X=X, mask=mask, Y=Y, Y_m=Y_m, Y_t=Y_t, R_idx=R_idx, chain_labels=chain_labels).items()}
+    fd = {k: torch.tensor(v) for k, v in {
+        "X": X, "mask": mask, "Y": Y, "Y_m": Y_m, "Y_t": Y_t, "R_idx": R_idx, "chain_labels": chain_labels}.items()}
     with torch.no_grad():
         Vt, Et, Eit, Ynt, Yet, Ymt = m(fd)
 
