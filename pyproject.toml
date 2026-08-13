@@ -7,6 +7,7 @@ name = "jlig_mpnn"
 version = "0.0.1"
 description = "JAX/Equinox port of LigandMPNN (differentiable, ligand-aware sequence log-likelihood)"
 readme = "README.md"
+license = "MIT"
 requires-python = ">=3.12"
 dependencies = ["jax", "equinox", "numpy"]
 

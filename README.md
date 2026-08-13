@@ -1,5 +1,8 @@
 # jlig_mpnn
 
+[![CI](https://github.com/ssiddhantsharma/jlig_mpnn/actions/workflows/ci.yml/badge.svg)](https://github.com/ssiddhantsharma/jlig_mpnn/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 JAX/Equinox port of LigandMPNN (Dauparas et al.), loaded from the released torch checkpoints
 via `from_torch`. Gives a **differentiable, ligand-aware** sequence log-likelihood, usable as
 an in-loop loss for gradient-based protein design (the torch model is not differentiable
