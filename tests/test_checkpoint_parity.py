@@ -22,7 +22,7 @@ def test_checkpoint_parity():
     sys.path.insert(0, "/tmp")
     import ligmpnn_model as ref
 
-    from jlig_mpnn.model import LigandMPNN
+    from jligandmpnn.model import LigandMPNN
 
     ck = torch.load(CKPT, map_location="cpu", weights_only=False)
     m = ref.ProteinMPNN(model_type="ligand_mpnn", k_neighbors=ck["num_edges"],

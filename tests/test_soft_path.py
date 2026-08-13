@@ -11,7 +11,7 @@ import jax.numpy as jnp
 sys.path.insert(0, "/tmp")
 import ligmpnn_model as ref  # noqa: E402
 
-from jlig_mpnn.model import LigandMPNN  # noqa: E402
+from jligandmpnn.model import LigandMPNN  # noqa: E402
 
 B, L, M = 1, 18, 20
 

@@ -4,7 +4,7 @@ import jax.numpy as jnp
 import numpy as np
 import torch
 
-from jlig_mpnn.features import get_rbf, knn, rbf
+from jligandmpnn.features import get_rbf, knn, rbf
 
 TOP_K, NUM_RBF = 30, 16
 

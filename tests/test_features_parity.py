@@ -13,7 +13,7 @@ import torch
 sys.path.insert(0, "/tmp")
 import ligmpnn_model as ref
 
-from jlig_mpnn.features import ProteinFeaturesLigand
+from jligandmpnn.features import ProteinFeaturesLigand
 
 B, L, M, AC, NRBF = 1, 20, 25, 16, 16
 

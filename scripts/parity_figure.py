@@ -1,4 +1,4 @@
-"""Proof figure: jlig_mpnn score() log-probs vs the torch LigandMPNN reference.
+"""Proof figure: jligandmpnn score() log-probs vs the torch LigandMPNN reference.
 
 Needs torch + the LigandMPNN reference module importable as `ligmpnn_model` (LIGMPNN_MODEL_DIR).
 Saves figures/parity.png. Run: `LIGMPNN_MODEL_DIR=... python scripts/parity_figure.py`.
@@ -19,7 +19,7 @@ import torch
 sys.path.insert(0, os.environ["LIGMPNN_MODEL_DIR"])
 import ligmpnn_model as ref
 
-from jlig_mpnn.model import LigandMPNN
+from jligandmpnn.model import LigandMPNN
 
 B, L, M = 1, 40, 25
 
@@ -52,7 +52,7 @@ def main():
     fig, ax = plt.subplots(figsize=(4, 4))
     ax.plot(lim, lim, color="0.7", lw=0.8, zorder=1)
     ax.scatter(lp_t, lp_j, s=6, color="#222222", alpha=0.45, linewidths=0, zorder=2)
-    ax.set(xlabel="torch  log P", ylabel="jlig_mpnn  log P", xlim=lim, ylim=lim)
+    ax.set(xlabel="torch  log P", ylabel="jligandmpnn  log P", xlim=lim, ylim=lim)
     ax.set_aspect("equal")
     ax.text(0.04, 0.96, f"max |Δ| {err:.0e}", transform=ax.transAxes, va="top", fontsize=9)
     for s in ("top", "right"):

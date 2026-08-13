@@ -1,6 +1,6 @@
-# jlig_mpnn
+# jligandmpnn
 
-[![CI](https://github.com/ssiddhantsharma/jlig_mpnn/actions/workflows/ci.yml/badge.svg)](https://github.com/ssiddhantsharma/jlig_mpnn/actions/workflows/ci.yml)
+[![CI](https://github.com/ssiddhantsharma/jligandmpnn/actions/workflows/ci.yml/badge.svg)](https://github.com/ssiddhantsharma/jligandmpnn/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 JAX/Equinox port of LigandMPNN (Dauparas et al.), loaded from the released torch checkpoints
@@ -32,7 +32,7 @@ Verified against the torch reference on CPU, block by block:
 `python scripts/parity_figure.py` regenerates the plot.
 
 ## Layout
-- `src/jlig_mpnn/` `model`, `features`, `layers`, `backend` (the `from_torch` machinery)
+- `src/jligandmpnn/` `model`, `features`, `layers`, `backend` (the `from_torch` machinery)
 - `tests/` parity vs the torch reference
 
 Deps: jax + equinox.

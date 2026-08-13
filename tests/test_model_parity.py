@@ -9,7 +9,7 @@ import torch
 sys.path.insert(0, "/tmp")
 import ligmpnn_model as ref
 
-from jlig_mpnn.model import LigandMPNN
+from jligandmpnn.model import LigandMPNN
 
 B, L, M = 1, 18, 20
 
