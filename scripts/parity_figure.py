@@ -1,10 +1,8 @@
 """Proof figure: jligandmpnn score() log-probs vs the torch LigandMPNN reference.
 
-Needs torch + the LigandMPNN reference module importable as `ligmpnn_model` (LIGMPNN_MODEL_DIR).
-Saves figures/parity.png. Run: `LIGMPNN_MODEL_DIR=... python scripts/parity_figure.py`.
+Self-contained (uses the vendored reference under ./reference). Run: `python scripts/parity_figure.py`.
 """
 
-import os
 import sys
 from pathlib import Path
 
@@ -16,7 +14,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import torch
 
-sys.path.insert(0, os.environ["LIGMPNN_MODEL_DIR"])
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "reference"))
 import ligmpnn_model as ref
 
 from jligandmpnn.model import LigandMPNN
@@ -47,20 +45,30 @@ def main():
     order = ("S", "X", "mask", "Y", "Y_m", "Y_t", "R_idx", "chain_labels", "chain_mask", "randn")
     lp_j = np.asarray(j.score(*[jnp.asarray(a[k]) for k in order])).reshape(-1)
 
-    err = np.abs(lp_j - lp_t).max()
+    diff = lp_j - lp_t
+    err = np.abs(diff).max()
+    fig, (a, b) = plt.subplots(1, 2, figsize=(8, 4))
+
     lim = [lp_t.min() - 0.3, lp_t.max() + 0.3]
-    fig, ax = plt.subplots(figsize=(4, 4))
-    ax.plot(lim, lim, color="0.7", lw=0.8, zorder=1)
-    ax.scatter(lp_t, lp_j, s=6, color="#222222", alpha=0.45, linewidths=0, zorder=2)
-    ax.set(xlabel="torch  log P", ylabel="jligandmpnn  log P", xlim=lim, ylim=lim)
-    ax.set_aspect("equal")
-    ax.text(0.04, 0.96, f"max |Δ| {err:.0e}", transform=ax.transAxes, va="top", fontsize=9)
-    for s in ("top", "right"):
-        ax.spines[s].set_visible(False)
+    a.plot(lim, lim, color="0.7", lw=0.8, zorder=1)
+    a.scatter(lp_t, lp_j, s=7, color="#0072B2", alpha=0.5, linewidths=0, zorder=2)
+    a.set(xlabel="torch  log P", ylabel="jligandmpnn  log P", xlim=lim, ylim=lim)
+    a.set_aspect("equal")
+    a.set_title(f"{L * 21} per-residue log-probs", fontsize=10)
+
+    b.hist(diff, bins=40, color="#0072B2")
+    b.axvline(0, color="0.7", lw=0.8)
+    b.set(xlabel="jligandmpnn - torch", ylabel="count")
+    b.set_title(f"max |Δ| = {err:.0e}", fontsize=10)
+    b.ticklabel_format(axis="x", style="sci", scilimits=(0, 0))
+
+    for ax in (a, b):
+        for s in ("top", "right"):
+            ax.spines[s].set_visible(False)
     fig.tight_layout()
     out = Path(__file__).resolve().parents[1] / "figures" / "parity.png"
     out.parent.mkdir(exist_ok=True)
-    fig.savefig(out, dpi=150)
+    fig.savefig(out, dpi=150, bbox_inches="tight")
     print("saved", out, "max abs err", err)
 
 
